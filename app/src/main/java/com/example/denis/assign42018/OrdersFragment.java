@@ -110,16 +110,11 @@ public class OrdersFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
                 String imageFileName = "my_tshirt_image_" + timeStamp + ".jpg";
-
                 Log.i(TAG, "imagefile");
-
                 File file = new File(Environment.getExternalStorageDirectory(), imageFileName);
-
                 // Save a file: path for use with later
                 mCurrentPhotoPath = file.getAbsolutePath();
-
                 // use FileProvider here rather than Uri.fromFile
                 mPhotoURI = FileProvider.getUriForFile(getActivity(),getString(R.string.file_provider_authority),file);
                 Log.i(TAG, mPhotoURI.toString());
@@ -144,10 +139,7 @@ public class OrdersFragment extends Fragment {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        // link to the imageView of the xml
-
-
-        //also can give user a message that everything went ok
+         //also can give user a message that everything went ok
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK)
         {
             //let user know that image saved
@@ -172,20 +164,7 @@ public class OrdersFragment extends Fragment {
 
             // get the external file here but I cant get access to the thing!!
             //imageView.setImageResource(R.drawable.mad_penguins);
-
-
-
-
-
-
-
-
-
-
-
-        }
-
-
+       }
     }
 
 
@@ -203,7 +182,6 @@ public class OrdersFragment extends Fragment {
      */
     private String createOrderSummary()
     {
-
         String orderMessage = getString(R.string.customer_name) + " " + mCustomerName.getText().toString();
         orderMessage += "\n" + "\n" + getString(R.string.order_message_1);
         String optionalInstructions = meditOptional.getText().toString();
@@ -232,6 +210,7 @@ public class OrdersFragment extends Fragment {
     /**
      * Open Email application an prepopulate with data from OrderActivity screen & picture retrieved
      */
+
     public void sendEmail(View v)
     {
         //check that Name is not empty, and ask do they want to continue

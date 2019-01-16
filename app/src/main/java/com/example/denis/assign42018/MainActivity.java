@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new OrdersFragment();
                     break;
                 case 3:
-                    fragment = new BlankFragment3();
+                    fragment = new CollectionFragment();
                     break;
             }
             return fragment;
