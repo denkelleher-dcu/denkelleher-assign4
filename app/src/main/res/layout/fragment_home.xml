@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/pageBackground">
+    android:background="@color/pageBackground"
+    android:paddingBottom="@dimen/activity_bottom_margin">
 
     <TextView
         android:id="@+id/textView1"

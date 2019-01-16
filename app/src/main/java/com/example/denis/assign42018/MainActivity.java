@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ProductsFragment();
                     break;
                 case 2:
-                    fragment = new BlankFragment2();
+                    fragment = new OrdersFragment();
                     break;
                 case 3:
                     fragment = new BlankFragment3();

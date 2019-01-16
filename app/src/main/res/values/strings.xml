@@ -13,9 +13,43 @@
     <!-- Image Descriptions -->
     <string name="home_tab_image">Home Tab Image</string>
     <string name="product_icon">Product Icon Image</string>
+    <string name="order_icon">Order Icon Image</string>
 
-    <!-- Other Strings-->
+    <!-- Orders Tab Strings-->
+    <string name="order_icon_text">Take Photo for T-Shirt</string>
+    <string name="orders_hint_name">Enter Your Name</string>
+    <string name="orders_send_button">Send Email</string>
+    <string name="orders_delivery">Delivery Address</string>
+
+    <!-- Spinner Strings-->
+    <string-array name="ui_time_entries">
+    <item>" 2"</item>
+    <item>" 3"</item>
+    <item>" 4"</item>
+    <item>" 5"</item>
+    <item>10</item>
+    <item>14</item>
+    </string-array>
+
+    <!-- Orders Strings-->
+    <string name="customer_name">Name</string>
+    <string name="ready_time">Delivery/Collection in (days)</string>
+    <string name="order_message_1">Please find my order attached</string>
+    <string name="order_message_collect">I will collect it in </string>
+    <string name="order_message_instructions">Delivery -or- Collect: </string>
+    <string name="order_message_end">Regards</string>
+    <string name="customer_name_blank">You did not enter your name.</string>
+    <string name="notification_title">Notification!</string>
+    <string name="image_confirm">Image saved successfully </string>
+    <string name="to_email">my-tshirt@sda.ie</string>
+    <string name="email_subject">Order Request </string>
+    <string name="photo_taken_text">This is the Photo Taken \n (Click again to take another)</string>
+
+    <!-- File Provider -->
+    <string name="file_provider_authority" translatable="false">com.example.denis.assign42018.fileprovider</string>
+
     <string name="action_settings">Settings</string>
+
     <string name="section_format">Hello World from section: %1$d</string>
 
 
