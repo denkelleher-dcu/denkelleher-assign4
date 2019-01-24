@@ -10,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -54,21 +56,43 @@ public class CollectionFragment extends Fragment {
 
         //Problem Here in that the toast is created on creation of the mcollectSpinner
 
+        //create listener for mcollectSpinner
+        mcollectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mCollectionText = parent.getItemAtPosition(position).toString();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SAVED_COLLECTION_KEY, mCollectionText);
+                editor.apply();
 
+                Toast.makeText(getActivity(), prefs.getString(SAVED_COLLECTION_KEY, "") + " is saved",
+                        Toast.LENGTH_LONG).show();
+            }
 
-        //get a reference to the spinner
-        mCollectionText= mcollectSpinner.getSelectedItem().toString();
-        // saveData
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // nothing needed here
+                }
+        });
+      /*  {
+            @Override
+            *//**
+             * saves the spinner item collected<br>
+             *//*
+            public void onItemClick (Spinner s) {
+                //get a reference to the spinner
+                mCollectionText = mcollectSpinner.getSelectedItem().toString();
+                // saveData
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(SAVED_COLLECTION_KEY, mCollectionText );
-        editor.apply();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SAVED_COLLECTION_KEY, mCollectionText);
+                editor.apply();
 
-        //check memorised value and send a message to user
-        Toast.makeText(getActivity(),prefs.getString(SAVED_COLLECTION_KEY,"")+" is saved", Toast.LENGTH_LONG)
-                .show();
-
-
+                //check memorised value and send a message to user
+                Toast.makeText(getActivity(), prefs.getString(SAVED_COLLECTION_KEY, "") + " is saved", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });*/
 
         return root;
 
