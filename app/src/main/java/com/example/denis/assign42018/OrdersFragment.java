@@ -29,47 +29,42 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
 public class OrdersFragment extends Fragment {
-    /**
-     * Uri to track pictures taken with camera
-     */
-    Uri mPhotoURI;
-    /**
-     * Spinner for 'Delivery/Collection in' field
-     */
-    Spinner mSpinner;
-    /**
-     * Customer name variable
-     */
-    EditText mCustomerName;
-    /**
-     * Optional text variable that can be included in email
-     */
-    EditText meditOptional;
-    /**
-     * Static variable for request image code for intent results retrieval
-     */
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    /**
-     * Static variable for request take photo code for intent results retrieval
-     */
+    // Uri to track pictures taken with camera
+     Uri mPhotoURI;
+
+    // File to name pictures taken with camera
+    File mphotoFile;
+
+    //Spinner for 'Delivery/Collection in' field
+     Spinner mSpinner;
+
+     //Customer name variable
+     EditText mCustomerName;
+
+     //Optional text variable that can be included in email
+     EditText meditOptional;
+
+     //Static variable for request image code for intent results retrieval
+     static final int REQUEST_IMAGE_CAPTURE = 1;
+
+     //Static variable for request take photo code for intent results retrieval
     static final int REQUEST_TAKE_PHOTO = 2;
-    /**
-     * string variable set to 'Assign4' for logcat use
-     */
-    private static final String TAG = "Assign4";
-    /**
-     * Bitmap variable for capturing images from camera
-     */
+
+    //string variable set to 'Assign4' for logcat use
+     private static final String TAG = "Assign4";
+
+     //Bitmap variable for capturing images from camera
     private Bitmap mImageBitmap;
-    /**
-     * string variable for file path for photo taken by camera
-     */
+
+    //string variable for file path for photo taken by camera
     String mCurrentPhotoPath;
 
 
@@ -108,21 +103,37 @@ public class OrdersFragment extends Fragment {
              * and assigns the file name to the mPhotoURI and sets the return code to 'REQUEST_TAKE_PHOTO' static variable
              */
             public void onClick(View v) {
+                //declare the intent.
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "my_tshirt_image_" + timeStamp + ".jpg";
-                Log.i(TAG, "imagefile");
-                File file = new File(Environment.getExternalStorageDirectory(), imageFileName);
-                // Save a file: path for use with later
-                mCurrentPhotoPath = file.getAbsolutePath();
-                // use FileProvider here rather than Uri.fromFile
-                mPhotoURI = FileProvider.getUriForFile(getActivity(),getString(R.string.file_provider_authority),file);
-                Log.i(TAG, mPhotoURI.toString());
-                Log.i(TAG, getString(R.string.file_provider_authority));
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoURI);
-                startActivityForResult(intent, REQUEST_TAKE_PHOTO );
-                //incase of caching if it comes from the activity stack, just a precaution
-                // intent.removeExtra(MediaStore.EXTRA_OUTPUT);
+                //check for camera
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null)
+                {
+                    // camera present so
+                    //call the method for photo file
+                    mphotoFile = createTempFile();
+                    // check all ok with photo file creation
+                    if (mphotoFile!= null){
+                        // file in place so go for Uri.
+                        mPhotoURI = FileProvider.getUriForFile(getActivity(),getString(R.string.file_provider_authority),mphotoFile);
+                        // save the file location for later use in populating back the file to screen
+                        mCurrentPhotoPath = mphotoFile.getAbsolutePath();
+                        //check the file location in logcat
+                        Log.i(TAG, mCurrentPhotoPath.toString());
+                        // take the photo
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoURI);
+                        startActivityForResult(intent, REQUEST_TAKE_PHOTO );
+                        //incase of caching if it comes from the activity stack, just a precaution
+                        // intent.removeExtra(MediaStore.EXTRA_OUTPUT);
+                    }else{
+                        //toaster alert to let the user know the image is missing
+                        Toast toast = Toast.makeText(getActivity(), "There was a problem saving please retry", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                } else{
+                    //no camera present, inform the user.
+                    Toast toast = Toast.makeText(getActivity(), "you have no camera", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 
@@ -134,9 +145,13 @@ public class OrdersFragment extends Fragment {
 
 
 
-    /**
-     * Retrieve the picture taken for the T-shirt, display the picture on screen and let the user know success via toast
-     */
+     /**
+      * Retrieve the picture taken for the T-shirt, display the picture on screen and let the user know success via toast
+      *@param requestCode
+      *@param resultCode
+      *@param data
+      * @return toast and image
+      */
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
          //also can give user a message that everything went ok
@@ -162,9 +177,40 @@ public class OrdersFragment extends Fragment {
             imageText.setText(R.string.photo_taken_text);
             imageText.setTextAppearance(R.style.SmallestTextStyle);
 
-            // get the external file here but I cant get access to the thing!!
-            //imageView.setImageResource(R.drawable.mad_penguins);
+
        }
+    }
+
+
+
+    /**
+     * Creates a temporary file
+     * @return Temp file and path for image storage once taken by camera intent
+     */
+    private File createTempFile(){
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new
+                Date());
+        String imageFileName = "My_Image_" + timeStamp + "_";
+        //we should get a general reference to externalstorage for images.
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        //declare an image file
+        File myImage = null;
+        //try catch, ensure it doesn't crash if the file fails to be taken
+        try
+        {
+            //make an empty file
+            myImage = File.createTempFile(imageFileName, ".jpg", storageDir);
+        } catch (IOException e)
+        {
+            String error = String.valueOf(e);
+            Log.e(TAG, error);
+            //toaster alert to let the user know there's an issue
+            Toast toast = Toast.makeText(getActivity(), "Please try retaking your photo!",
+                    Toast.LENGTH_LONG);
+            toast.show();
+        }
+        return myImage;
     }
 
 

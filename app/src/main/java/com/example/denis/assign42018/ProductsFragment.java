@@ -1,5 +1,6 @@
 package com.example.denis.assign42018;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,14 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ProductsFragment extends Fragment {
+
+    public static final String SAVED_PRODUCT_KEY = "SAVED_PRODUCT_KEY";
+    private String mProductText;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_products,container,false);
+
+        // setup shared preferences called pref
+        final SharedPreferences prefs = this.getActivity().getPreferences(MODE_PRIVATE);
 
         // Create an ArrayList of ProductFlavour objects to represent the Shop products
         // for Assignment 3 the vName and vNumbers have been adapted for the Shop context rather than the Android Flavours
@@ -44,7 +57,7 @@ public class ProductsFragment extends Fragment {
         final ListView listView = (ListView) root.findViewById(R.id.listview_products);
         listView.setAdapter(flavorAdapter);
 
-        // Set the toast
+        // Set the toast & save the data
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -52,14 +65,25 @@ public class ProductsFragment extends Fragment {
                 // here I have the position of the element in the arraylist 'position'
                 // declare a AndroidFlavour instance called product value and set it to the appropriate AndroidFlavour at the position in the arraylist.
                 ProductFlavor productValue = productFlavors.get(position);
-                Toast.makeText(getActivity(),
-                        productValue.getProductName(), Toast.LENGTH_LONG)
+                mProductText=productValue.getProductName();
+
+                // saveData
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SAVED_PRODUCT_KEY, mProductText );
+                editor.apply();
+
+                //check memorised value and send a message to user
+                Toast.makeText(getActivity(),prefs.getString(SAVED_PRODUCT_KEY,"")+" is saved", Toast.LENGTH_LONG)
                         .show();
+
             }
         });
-
-
-
     return root;
     }
+
+
+
+
+
+
 }
