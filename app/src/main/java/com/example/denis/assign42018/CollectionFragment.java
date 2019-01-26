@@ -14,29 +14,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import static android.content.Context.MODE_PRIVATE;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CollectionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CollectionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CollectionFragment extends Fragment {
-    public static final String SAVED_COLLECTION_KEY = "SAVED_PRODUCT_KEY";
+
+    public static final String SAVED_COLLECTION_KEY = "SAVED_COLLECTION_KEY";
     private String mCollectionText;
-    /**
-     * Spinner for 'Collection From' field
-     */
-    Spinner mcollectSpinner;
-
-
 
     @Nullable
     @Override
@@ -45,59 +34,51 @@ public class CollectionFragment extends Fragment {
         //setup shared preferences
         final SharedPreferences prefs = this.getActivity().getPreferences(MODE_PRIVATE);
 
-        //initialise spinner using the integer array
-        mcollectSpinner = (Spinner) root.findViewById(R.id.collectSpinner);
+        // Create an ArrayList of CollectionFlavour objects to represent the Collection Shop
+        // for Assignment 4 the ProductFlavour adapter has been adapted for the Collections context Products context
+        final ArrayList<CollectionFlavor> collectionFlavors = new ArrayList<CollectionFlavor>();
+        collectionFlavors.add(new CollectionFlavor("Mahon Point", "Link Rd, Mahon, Cork." , "021-1112223"));
+        collectionFlavors.add(new CollectionFlavor("Queens Old Castle", "Grand Parade, Cork City." , "021-2223334"));
+        collectionFlavors.add(new CollectionFlavor("Blackpool", "Millfield Cottages, Blackpool, Cork." , "021-3334445"));
+        collectionFlavors.add(new CollectionFlavor("Millstreet", "18 Main St, Millstreet, Co. Cork." , "029-4445556"));
+        collectionFlavors.add(new CollectionFlavor("Little Island", "Unit 7, Ballytrasna, Little Island, Cork." , "021-5556667"));
+        collectionFlavors.add(new CollectionFlavor("Midleton", "23-25, Main Street, Midleton, Co Cork." , "021-6667778"));
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.ui_collection_entries, R.layout.spinner_days);
-        mcollectSpinner.setAdapter(adapter);
+        /* Create an CollectionFlavorAdapter, whose data source is a list of
+        CollectionFlavor's. The adapter knows how to create list item views for each item
+        in the list.
+        */
+        final CollectionFlavorAdapter flavorAdapter = new CollectionFlavorAdapter(getActivity(), collectionFlavors);
 
+        // Get a reference to the ListView, and attach the adapter to the listView.
+        final ListView listView = (ListView) root.findViewById(R.id.listview_collections);
+        listView.setAdapter(flavorAdapter);
 
-        //Problem Here in that the toast is created on creation of the mcollectSpinner
-
-        //create listener for mcollectSpinner
-        mcollectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // Set the toast & save the data
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mCollectionText = parent.getItemAtPosition(position).toString();
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(SAVED_COLLECTION_KEY, mCollectionText);
-                editor.apply();
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // here I have the position of the element in the arraylist 'position'
+                // declare a AndroidFlavour instance called product value and set it to the appropriate AndroidFlavour at the position in the arraylist.
+                CollectionFlavor collectionValue = collectionFlavors.get(position);
+                mCollectionText=collectionValue.getCollectionLocation();
 
-                Toast.makeText(getActivity(), prefs.getString(SAVED_COLLECTION_KEY, "") + " is saved",
-                        Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // nothing needed here
-                }
-        });
-      /*  {
-            @Override
-            *//**
-             * saves the spinner item collected<br>
-             *//*
-            public void onItemClick (Spinner s) {
-                //get a reference to the spinner
-                mCollectionText = mcollectSpinner.getSelectedItem().toString();
                 // saveData
-
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(SAVED_COLLECTION_KEY, mCollectionText);
+                editor.putString(SAVED_COLLECTION_KEY, mCollectionText );
                 editor.apply();
 
                 //check memorised value and send a message to user
-                Toast.makeText(getActivity(), prefs.getString(SAVED_COLLECTION_KEY, "") + " is saved", Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(),prefs.getString(SAVED_COLLECTION_KEY,"")+" selected for collection", Toast.LENGTH_LONG)
                         .show();
+
             }
-        });*/
+        });
+
+
+
 
         return root;
-
-
-
-
     }
 }

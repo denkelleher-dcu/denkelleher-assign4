@@ -73,7 +73,7 @@ public class ProductsFragment extends Fragment {
                 editor.apply();
 
                 //check memorised value and send a message to user
-                Toast.makeText(getActivity(),prefs.getString(SAVED_PRODUCT_KEY,"")+" is saved", Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(),prefs.getString(SAVED_PRODUCT_KEY,"")+" added", Toast.LENGTH_LONG)
                         .show();
 
             }
