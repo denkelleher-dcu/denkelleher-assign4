@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#5d92ed</color>
+    <color name="colorPrimaryDark">#5d92ed</color>
     <color name="colorAccent">#FF4081</color>
 <!-- Colours for Text usages -->
     <color name="big_text">#0d0d0d</color>
     <color name="medium_text">#8c8c8c</color>
     <color name="small_text">#c7baba</color>
 <!-- Additional Color Styles-->
-    <color name="pageBackground">#ffffff</color>
+    <color name="pageBackground">#c1ffd45c</color>
 </resources>

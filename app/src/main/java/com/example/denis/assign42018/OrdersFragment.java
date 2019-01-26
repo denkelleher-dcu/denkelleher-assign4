@@ -1,7 +1,9 @@
 package com.example.denis.assign42018;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -35,8 +38,18 @@ import java.util.Date;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class OrdersFragment extends Fragment {
+    // sharedPreferences variables
+    public static final String SAVED_COLLECTION_KEY = "SAVED_COLLECTION_KEY";
+    private String mCollectionText;
+    public static final String SAVED_PRODUCT_KEY = "SAVED_PRODUCT_KEY";
+    private String mProductText;
+
+
+
+
     // Uri to track pictures taken with camera
      Uri mPhotoURI;
 
@@ -77,13 +90,18 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_orders,container,false);
 
+        // setup shared preferences called pref
+        final SharedPreferences prefs = this.getActivity().getPreferences(MODE_PRIVATE);
+
         meditOptional = (EditText) root.findViewById(R.id.editOptional);
         meditOptional.setImeOptions(EditorInfo.IME_ACTION_DONE);
         meditOptional.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        mCustomerName = (EditText) root.findViewById(R.id.editCustomer);
 
         //initialise spinner using the integer array
         mSpinner = (Spinner) root.findViewById(R.id.spinner);
-        mCustomerName = (EditText) root.findViewById(R.id.editCustomer);
+
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -137,12 +155,117 @@ public class OrdersFragment extends Fragment {
             }
         });
 
+        // clear the Collection location
+        Button clearCollectButton = (Button)root.findViewById(R.id.clear_collect);
+        // set a listener
+        clearCollectButton.setOnClickListener(new Button.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  //clear the collection location
+                  // saveData
+                  SharedPreferences.Editor editor = prefs.edit();
+                  editor.putString(SAVED_COLLECTION_KEY, "");
+                  editor.apply();
+                  Toast toast = Toast.makeText(getActivity(), "Collection Location Cleared From Memory", Toast.LENGTH_LONG);
+                  toast.show();
+
+              }
+          });
+
+        //Clear the Product selected
+        Button clearProductButton = (Button)root.findViewById(R.id.clear_product);
+        // set a listener
+        clearProductButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //clear the collection location
+                // saveData
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(SAVED_PRODUCT_KEY, "");
+                editor.apply();
+                Toast toast = Toast.makeText(getActivity(), "Product Cleared From Memory", Toast.LENGTH_LONG);
+                toast.show();
+
+            }
+        });
+
+
+
+
+
+
+
+
+        // When the Send Email button is pressed, take prepopulate the Email.
+        // link too the button
+        Button button = (Button)root.findViewById(R.id.button);
+        // set a listener
+        button.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            /**
+             * Launches the Email application and pre-populate the order details<br>
+             *
+             */
+            public void onClick(View v) {
+                //recall the product saved
+                mProductText = prefs.getString(SAVED_PRODUCT_KEY, "");
+                // recall the Collection location
+                mCollectionText = prefs.getString(SAVED_COLLECTION_KEY, "");
+
+
+                //check that Name is not empty,
+                String customerName = mCustomerName.getText().toString();
+                if (customerName.matches("")) {
+                    //set a dialog box to show user error
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Notification!").setMessage("Customer Name not set.").setPositiveButton("OK", null).show();
+
+                } else {
+                    //check for a product selected
+                    if (mProductText.matches("")) {
+                        //set a dialog box to show user error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Notification!").setMessage("Product not set.").setPositiveButton("OK", null).show();
+                    } else {
+                        //check if collection set and if not prompt for delivery address
+                        String deliveryAddress = meditOptional.getText().toString();
+                        if (mCollectionText.matches("") & deliveryAddress.matches("")) {
+                            //set a dialog box to show user error
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle("Notification!").setMessage("Enter a delivery address\n  OR\n Select a Collection location (in Collections tab).").setPositiveButton("OK", null).show();
+                        } else {
+                            // check for both delivery and collection selected
+                            if (!mCollectionText.matches("") & !deliveryAddress.matches("")) {
+                                //set a dialog box to show user error
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Notification!").setMessage("Both Delivery Address AND Collection Selected\n Enter a delivery address\n  Please clear one field (Collection or Delivery Address").setPositiveButton("OK", null).show();
+                            } else {
+
+
+                                // all ok so populate email
+
+                                // test toast message
+                                //Toast toast = Toast.makeText(getActivity(), "Product: " + mProductText + "\nCollection: " + mCollectionText + "\n" + createOrderSummary(), Toast.LENGTH_LONG);
+                                //toast.show();
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("*/*");
+                                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.to_email)});
+                                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+                                intent.putExtra(Intent.EXTRA_STREAM, mPhotoURI);
+                                intent.putExtra(Intent.EXTRA_TEXT, createOrderSummary());
+                                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                    startActivity(intent);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         return root;
      }
-
-
-
 
 
      /**
@@ -176,8 +299,6 @@ public class OrdersFragment extends Fragment {
             // set the image text to 'photo_taken_text' from strings
             imageText.setText(R.string.photo_taken_text);
             imageText.setTextAppearance(R.style.SmallestTextStyle);
-
-
        }
     }
 
@@ -213,14 +334,6 @@ public class OrdersFragment extends Fragment {
         return myImage;
     }
 
-
-
-
-
-
-
-
-
     /**
      * Returns the Email Body Message.<br>
      * Email body message is created used prescription related data inputed from user
@@ -228,59 +341,46 @@ public class OrdersFragment extends Fragment {
      */
     private String createOrderSummary()
     {
-        String orderMessage = getString(R.string.customer_name) + " " + mCustomerName.getText().toString();
-        orderMessage += "\n" + "\n" + getString(R.string.order_message_1);
-        String optionalInstructions = meditOptional.getText().toString();
-
-        orderMessage += "\n" + getString(R.string.order_message_collect) + ((CharSequence) mSpinner.getSelectedItem()).toString() + " days";
-        orderMessage += "\n" + getString(R.string.order_message_end) + "\n" + mCustomerName.getText().toString();
-
-        // add simple use of optionalInstruction for Assignment 3
-        orderMessage += "\n" + "\n" + "Optional Instrutions: " + optionalInstructions;
-
-        return orderMessage;
-        //update screen
-    }
+        // order introduction
+        String orderMessage = getString(R.string.order_intro);
+        //line breaks followed by
+        //std order text
+        orderMessage += "\n" + "\n" + getString(R.string.order_message_1)
+            + "\n" + getString(R.string.order_message_2)+" " + mProductText + "\n";
 
 
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Open Email application an prepopulate with data from OrderActivity screen & picture retrieved
-     */
-
-    public void sendEmail(View v)
-    {
-        //check that Name is not empty, and ask do they want to continue
-        String customerName = mCustomerName.getText().toString();
-        if (customerName.matches(""))
-        {
-            Toast.makeText(getActivity(), getString(R.string.customer_name_blank), Toast.LENGTH_SHORT).show();
-            // we can also use a dialog
-            //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            //builder.setTitle("Notification!").setMessage("Customer Name not set.").setPositiveButton("OK", null).show();
-            //
+        if (mCollectionText.matches("")) {
+            //delivery required..
+            String optionalInstructions = getString(R.string.order_message_deliver);
+            orderMessage += "\n" + optionalInstructions + " " + meditOptional.getText().toString()  ;
         } else
         {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("*/*");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.to_email)});
-            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-            intent.putExtra(Intent.EXTRA_STREAM, mPhotoURI);
-            intent.putExtra(Intent.EXTRA_TEXT, createOrderSummary());
-            if (intent.resolveActivity(getActivity().getPackageManager()) != null)
-            {
-                startActivity(intent);
-            }
+            // collection required
+            String optionalInstructions = getString(R.string.order_message_collect);
+            orderMessage += "\n" + optionalInstructions + " " + ((CharSequence) mSpinner.getSelectedItem()).toString() + " " + getString(R.string.collect_units)
+                    + "\n" + getString(R.string.collection_location) + " " + mCollectionText;
         }
+        orderMessage += "\n" + getString(R.string.order_message_end) + "\n" + mCustomerName.getText().toString();
+
+
+
+
+
+        return orderMessage;
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

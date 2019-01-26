@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Assign 4 2018 Denis Kelleher</string>
 
-    <!-- Tab Text Strings -->
+    <!-- Tab Frag Strings -->
     <string name="tab_text_1">HOME</string>
     <string name="tab_text_2">PRODUCTS</string>
     <string name="tab_text_3">ORDERS</string>
     <string name="tab_text_4">COLLECTION</string>
-    <!-- Home Tab Strings -->
+    <!-- Home Frag Strings -->
     <string name="Home_tab_text_1">Welcome to DK Assign 4 Clothing Company Online Store</string>
     <string name="Home_tab_text_2">Branded Casual Wear</string>
     <string name="Home_tab_text_3">Custom T-Shirt Printing</string>
@@ -15,11 +15,14 @@
     <string name="product_icon">Product Icon Image</string>
     <string name="order_icon">Order Icon Image</string>
 
-    <!-- Orders Tab Strings-->
+    <!-- Orders Frag Strings-->
     <string name="order_icon_text">Take Photo for T-Shirt</string>
     <string name="orders_hint_name">Enter Your Name</string>
     <string name="orders_send_button">Send Email</string>
     <string name="orders_delivery">Delivery Address</string>
+    <string name="clear_collect">Clear Collection</string>
+    <string name="clear_product">Clear Product</string>
+
 
     <!-- Spinner Strings-->
     <string-array name="ui_time_entries">
@@ -31,21 +34,17 @@
     <item>14</item>
     </string-array>
 
-    <!-- Spinner Strings-->
-    <string-array name="ui_collection_entries">
-        <item>"Mahon Point, Unit 3, 1st Floor, 087,1234567"</item>
-        <item>"Queens Old Castle, Unit 12, Ground Floor, 0866543321"</item>
-        <item>"English Market, Unit 7, West Corridor, 0858776655"</item>
-        <item>"A.N.Other Colelction"</item>
-        <item>Yet A.N.Other Collection</item>
-    </string-array>
+
 
     <!-- Orders Strings-->
-    <string name="customer_name">Name</string>
-    <string name="ready_time">Delivery/Collection in (days)</string>
-    <string name="order_message_1">Please find my order attached</string>
-    <string name="order_message_collect">I will collect it in </string>
-    <string name="order_message_instructions">Delivery -or- Collect: </string>
+    <string name="order_intro">To whom it concerns,</string>
+    <string name="ready_time">Collection in (days)</string>
+    <string name="order_message_1">Please find my order attached:</string>
+    <string name="order_message_2">Product Selected: </string>
+    <string name="order_message_collect">I will collect my order in </string>
+    <string name="collect_units"> days </string>
+    <string name="order_message_deliver">Please deliver my order to </string>
+    <string name="collection_location"> from </string>
     <string name="order_message_end">Regards</string>
     <string name="customer_name_blank">You did not enter your name.</string>
     <string name="notification_title">Notification!</string>
@@ -53,7 +52,7 @@
     <string name="to_email">my-tshirt@sda.ie</string>
     <string name="email_subject">Order Request </string>
     <string name="photo_taken_text">This is the Photo Taken \n (Click again to take another)</string>
-    <string name="take_photo_warning">Warning - Allow Storage Permissions to use Take_Photo Function</string>
+
 
     <!-- File Provider -->
     <string name="file_provider_authority" translatable="false">com.example.denis.assign42018</string>
