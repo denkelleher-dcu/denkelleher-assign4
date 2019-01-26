@@ -1,19 +1,17 @@
-Assignment 3 DCU SDA module 2018/19 application Denis Kelleher
+Assignment 4 DCU SDA module 2018/19 application Denis Kelleher
 ==============================================================
 
-This application builds on the base application given to students for
-SDA Assignment 3 (refer to ReadmeOld.md)
+This application builds on the base application generated from Assignment 3 for
+SDA Assignment 4
 
-This app demonstrates how to create and use a ListView and custom
-ArrayAdapter (called FlavorAdapter) to display a custom list item view
-that contains an ImageView and two TextViews.
+This app demonstrates how to create and use a Fragments.
 
 !
 
 Pre-requisites
 --------------
 
--   Android SDK v23
+-   Android SDK v23 minimum
 -   Android Build Tools v23.0.2
 -   Android Support Repository v23.3.0
 
