@@ -13,16 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProductsFragment extends Fragment {
-
+    // static variable for product saving key
     public static final String SAVED_PRODUCT_KEY = "SAVED_PRODUCT_KEY";
     private String mProductText;
 
-
-
+    /**
+     * Inflate the products fragment and link it to the fragment home layout file.
+     * @return the product fragment to the fragment main holder
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,10 +81,5 @@ public class ProductsFragment extends Fragment {
         });
     return root;
     }
-
-
-
-
-
 
 }

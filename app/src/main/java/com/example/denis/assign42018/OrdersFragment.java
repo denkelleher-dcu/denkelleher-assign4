@@ -84,6 +84,7 @@ public class OrdersFragment extends Fragment {
     /**
      * On creation of this fragment save the instance state,
      * setup the fragment resource <i>fragment_orders</i> and populate the screen.
+     * @return the fragment_orders layout
      */
     @Nullable
     @Override
@@ -218,27 +219,27 @@ public class OrdersFragment extends Fragment {
                 if (customerName.matches("")) {
                     //set a dialog box to show user error
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Notification!").setMessage("Customer Name not set.").setPositiveButton("OK", null).show();
+                    builder.setTitle(R.string.notification_title).setMessage(R.string.no_customer).setPositiveButton("OK", null).show();
 
                 } else {
                     //check for a product selected
                     if (mProductText.matches("")) {
                         //set a dialog box to show user error
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Notification!").setMessage("Product not set.").setPositiveButton("OK", null).show();
+                        builder.setTitle(R.string.notification_title).setMessage(R.string.no_product_set).setPositiveButton("OK", null).show();
                     } else {
                         //check if collection set and if not prompt for delivery address
                         String deliveryAddress = meditOptional.getText().toString();
                         if (mCollectionText.matches("") & deliveryAddress.matches("")) {
                             //set a dialog box to show user error
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("Notification!").setMessage("Enter a delivery address\n  OR\n Select a Collection location (in Collections tab).").setPositiveButton("OK", null).show();
+                            builder.setTitle(R.string.notification_title).setMessage(R.string.no_address_set).setPositiveButton("OK", null).show();
                         } else {
                             // check for both delivery and collection selected
                             if (!mCollectionText.matches("") & !deliveryAddress.matches("")) {
                                 //set a dialog box to show user error
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setTitle("Notification!").setMessage("Both Delivery Address AND Collection Selected\n Enter a delivery address\n  Please clear one field (Collection or Delivery Address").setPositiveButton("OK", null).show();
+                                builder.setTitle(R.string.notification_title).setMessage(R.string.both_address_set).setPositiveButton("OK", null).show();
                             } else {
 
 
@@ -361,11 +362,6 @@ public class OrdersFragment extends Fragment {
                     + "\n" + getString(R.string.collection_location) + " " + mCollectionText;
         }
         orderMessage += "\n" + getString(R.string.order_message_end) + "\n" + mCustomerName.getText().toString();
-
-
-
-
-
         return orderMessage;
 
     }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,13 +15,11 @@ import java.util.ArrayList;
  */
 public class CollectionFlavorAdapter extends ArrayAdapter<CollectionFlavor> {
 
-    /**
-     * static final variable for log cat purposes
-     */
+    //static final variable for log cat purposes
     private static final String LOG_TAG = CollectionFlavorAdapter.class.getSimpleName();
 
     /**
-     * This is DCU OpenICT's own custom constructor (it doesn't mirror a superclass constructor).
+     * This is based on DCU OpenICT's own custom constructor used in Assignment 3 SDA (it doesn't mirror a superclass constructor).
      * The context is used to inflate the layout file, and the list is the data we want
      * to populate into the lists.<br>
      * In assignment 4 this is a re-tasking of ProductFlavourAdapter for the purposes of the Collections tab.

@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Inflate the home fragment and link it to the fragment home layout file.
+ * @return the home fragment to the fragment main holder
+ */
 public class HomeFragment extends Fragment {
     @Nullable
     @Override

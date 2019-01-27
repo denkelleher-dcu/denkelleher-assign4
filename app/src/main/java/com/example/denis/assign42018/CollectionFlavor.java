@@ -7,19 +7,13 @@ package com.example.denis.assign42018;
  * This class is based on DCU OpenICT SDA Assignment 3 content
  */
 public class CollectionFlavor {
-    /**
-     * Represents the Collection Location (eg 'Mahon', 'Bishopstown' etc)
-     */
+    //Represents the Collection Location (eg 'Mahon', 'Bishopstown' etc)
     private String mCollectionLocation;
 
-    /**
-     * Represents the Collection Address (eg 'No 4, Main Street')
-     */
+    //Represents the Collection Address (eg 'No 4, Main Street')
     private String mCollectionAddress;
 
-    /**
-     * Represents the Collection Phone Number (eg '087-11122233')
-     */
+    //Represents the Collection Phone Number (eg '087-11122233')
     private String mCollectionPhone;
 
     /**

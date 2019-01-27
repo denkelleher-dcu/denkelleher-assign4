@@ -15,13 +15,11 @@ import java.util.ArrayList;
  */
 public class ProductFlavorAdapter extends ArrayAdapter<ProductFlavor> {
 
-    /**
-     * static final variable for log cat purposes
-     */
+    //static final variable for log cat purposes
     private static final String LOG_TAG = ProductFlavorAdapter.class.getSimpleName();
 
     /**
-     * This is DCU OpenICT's own custom constructor (it doesn't mirror a superclass constructor).
+     * This is DCU OpenICT's own custom constructor from Assignment 3 SDA(it doesn't mirror a superclass constructor).
      * The context is used to inflate the layout file, and the list is the data we want
      * to populate into the lists.
      *

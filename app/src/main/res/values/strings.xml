@@ -18,6 +18,7 @@
     <!-- Orders Frag Strings-->
     <string name="order_icon_text">Take Photo for T-Shirt</string>
     <string name="orders_hint_name">Enter Your Name</string>
+    <string name="address_hint_name">Enter Delivery Address</string>
     <string name="orders_send_button">Send Email</string>
     <string name="orders_delivery">Delivery Address</string>
     <string name="clear_collect">Clear Collection</string>
@@ -52,7 +53,10 @@
     <string name="to_email">my-tshirt@sda.ie</string>
     <string name="email_subject">Order Request </string>
     <string name="photo_taken_text">This is the Photo Taken \n (Click again to take another)</string>
-
+    <string name="no_product_set">Product Not Set</string>
+    <string name="no_customer">Customer Name Not Set</string>
+    <string name="no_address_set">Enter a Delivery Address\n OR\n Select a Collection Location</string>
+    <string name="both_address_set">Both Delivery Address AND Collection Selected\n Please clear one field (Collection or Delivery Address)</string>
 
     <!-- File Provider -->
     <string name="file_provider_authority" translatable="false">com.example.denis.assign42018</string>

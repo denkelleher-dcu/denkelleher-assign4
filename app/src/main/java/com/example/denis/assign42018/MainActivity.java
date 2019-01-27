@@ -35,8 +35,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+/**
+ * A simple android application for displaying a product listing and ordering t-shirts.<br>
+ * This is the required output for DCU 2018/19 SDA Assignment 4
+ * @author <a href="mailto:denis.kelleher29@mail.dcu.ie">Denis Kelleher</a>
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
-
+    // set static variables for shared preferences keys
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String SHARED_TEXT = "sharedText";
 
@@ -55,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Inflates a toolbar menu.
+     * @return Boolean (true/false)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -104,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    /**
+     * Handles menu options
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -144,6 +160,10 @@ public class MainActivity extends AppCompatActivity {
             return fragment;
         }
 
+        /**
+         * Returns the root view. Links the relevant fragment for the tab
+         * number.
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

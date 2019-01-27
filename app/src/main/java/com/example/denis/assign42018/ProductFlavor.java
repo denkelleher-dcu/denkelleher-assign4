@@ -7,19 +7,13 @@ package com.example.denis.assign42018;
  * This class is based on DCU OpenICT SDA Assignment 3 content
  */
 public class ProductFlavor {
-    /**
-     * Represents the Product Name (eg Shirt, Tie, etc)
-     */
+    //Represents the Product Name (eg Shirt, Tie, etc)
     private String mProductName;
 
-    /**
-     * Represents the Product Price
-     */
+    //Represents the Product Price
     private String mProductPrice;
 
-    /**
-     * Represents Drawable resource ID for the icon to be displayed
-     */
+    //Represents Drawable resource ID for the icon to be displayed
     private int mImageResourceId;
 
     /**
